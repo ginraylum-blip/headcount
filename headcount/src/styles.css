@@ -1,0 +1,1046 @@
+:root {
+  --tile: #e6e9e4;
+  --grout: #d2d8d1;
+  --steel: #77827e;
+  --ink: #231d1e;
+  --muted: #5b5f5d;
+  --blood: #7a0b0b;
+  --fresh: #b3121b;
+  --sea: #0f2a2e;
+  --sea-ink: #6e9a9e;
+  --sea-text: #e3ece9;
+
+  --display: "Archivo", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --tile: #1b1f1e;
+    --grout: #262b2a;
+    --steel: #8a9591;
+    --ink: #e4e0dc;
+    --muted: #a3a8a5;
+    --blood: #c4161f;
+    --fresh: #e0242e;
+    --sea: #0a1d20;
+    color-scheme: dark;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--tile);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--blood);
+  text-underline-offset: 0.2em;
+}
+
+a:focus-visible {
+  outline: 3px solid var(--fresh);
+  outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 62;
+  font-weight: 800;
+  line-height: 0.95;
+  margin: 0;
+}
+
+/* Tiled wall behind the hero and the species sections */
+.hero,
+.floor {
+  background-color: var(--tile);
+  background-image: linear-gradient(var(--grout) 2px, transparent 2px),
+    linear-gradient(90deg, var(--grout) 2px, transparent 2px);
+  background-size: 56px 56px;
+  background-position: -1px -1px;
+}
+
+/* ---------- Hero ---------- */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 9rem clamp(1.25rem, 5vw, 4rem) 2rem;
+}
+
+.blood-edge {
+  position: absolute;
+  inset: 0 0 auto 0;
+  width: 100%;
+  height: clamp(90px, 16vw, 180px);
+  fill: var(--blood);
+}
+
+.blood-edge .drip {
+  transform-origin: 50% 0;
+  transform-box: fill-box;
+  animation: drip-in 2.4s cubic-bezier(0.3, 0, 0.2, 1) both;
+  animation-delay: var(--d);
+}
+
+@keyframes drip-in {
+  from {
+    transform: scaleY(0.1);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.hero-inner {
+  max-width: 72rem;
+  opacity: calc(1 - var(--p, 0) * 1.4);
+  transform: translateY(calc(var(--p, 0) * -12vh)) scale(calc(1 - var(--p, 0) * 0.06));
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+}
+
+.wordmark {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 62;
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: 0.01em;
+  margin: 0 0 2.5rem;
+}
+
+.hero-lede {
+  font-family: var(--display);
+  font-size: clamp(1.1rem, 2.4vw, 1.6rem);
+  font-weight: 500;
+  margin: 0 0 0.25rem;
+  color: var(--muted);
+}
+
+.hero-count {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 62;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  font-size: clamp(3rem, calc((100vw - 2 * clamp(1.25rem, 5vw, 4rem)) / (var(--len, 6) * 0.5)), 15rem);
+  white-space: nowrap;
+  line-height: 0.85;
+  letter-spacing: -0.02em;
+  color: var(--blood);
+  margin: 0;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 6vw, 4.75rem);
+  font-weight: 700;
+  margin-top: 0.6rem;
+  max-width: 18ch;
+}
+
+.hero-breakdown {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.35rem 2rem;
+  max-width: 52rem;
+  font-size: 1.05rem;
+}
+
+.hero-breakdown li {
+  border-left: 3px solid var(--blood);
+  padding-left: 0.6rem;
+}
+
+.hb-num {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 75;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hero-sub {
+  margin: 1.5rem 0 0;
+  font-size: 1.15rem;
+  max-width: 40ch;
+}
+
+.hero-disclaimer {
+  margin: auto 0 0;
+  padding-top: 3rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* ---------- Species scenes ---------- */
+
+.species {
+  position: relative;
+}
+
+/* 1. The photo pins to the screen */
+.field-photo {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+  background: #1a1716;
+  z-index: 0;
+}
+
+.field-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(calc(1.12 - var(--f, 0) * 0.12));
+  filter: saturate(calc(1 - var(--f, 0) * 0.85)) brightness(calc(1 - var(--f, 0) * 0.35));
+  will-change: transform, filter;
+}
+
+/* Darkens the bottom for legible type, and blends the top into the tile wall above */
+.field-photo::before,
+.field-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.field-photo::after {
+  background: linear-gradient(to top, rgba(12, 10, 10, 0.85) 0%, rgba(12, 10, 10, 0.35) 45%, rgba(12, 10, 10, 0) 70%),
+    linear-gradient(to right, rgba(12, 10, 10, 0.5) 0%, rgba(12, 10, 10, 0) 55%);
+}
+
+.field-photo::before {
+  z-index: 1;
+  background: linear-gradient(to bottom, var(--tile) 0%, transparent 22%);
+  opacity: calc(1 - var(--f, 0) * 4);
+}
+
+.field-photo .credit {
+  position: absolute;
+  right: clamp(1rem, 3vw, 2rem);
+  bottom: 1rem;
+  z-index: 2;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.field-photo .credit a {
+  color: inherit;
+  text-decoration-color: currentColor;
+}
+
+/* 2. The story scrolls up over the pinned photo */
+.field-copy {
+  position: relative;
+  z-index: 1;
+  margin-top: -100vh;
+  margin-top: -100svh;
+  height: 200vh;
+  height: 200svh;
+  pointer-events: none;
+}
+
+.field-copy-inner {
+  position: absolute;
+  left: clamp(1.25rem, 5vw, 4rem);
+  right: clamp(1.25rem, 5vw, 4rem);
+  top: 62svh;
+  max-width: 38rem;
+  color: #f4f2ee;
+  pointer-events: auto;
+  text-shadow: 0 1px 24px rgba(0, 0, 0, 0.45);
+}
+
+.field-copy h2 {
+  font-size: clamp(4rem, 13vw, 10rem);
+  font-weight: 900;
+  color: #fff;
+}
+
+.field-fact {
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.4;
+  margin: 1.25rem 0 2.5rem;
+  max-width: 30ch;
+}
+
+/* 3. The kill floor slides up and covers the photo */
+.floor {
+  position: relative;
+  z-index: 2;
+  padding: 5rem clamp(1.25rem, 5vw, 4rem) 3rem;
+  border-top: 6px solid var(--steel);
+  box-shadow: 0 -40px 80px rgba(0, 0, 0, 0.45);
+  overflow: hidden;
+}
+
+.floor-head {
+  font-family: var(--display);
+  font-variation-settings: "wdth" 75;
+  font-weight: 700;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  line-height: 1.1;
+  margin: 0;
+}
+
+.counts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem 2rem;
+  margin: 2rem 0 0;
+  max-width: 64rem;
+}
+
+.counts div {
+  border-left: 3px solid var(--steel);
+  padding-left: 0.75rem;
+}
+
+.counts dt {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.counts dd {
+  margin: 0;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 75;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  font-size: 1.6rem;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.counts dd.count-main {
+  color: var(--blood);
+}
+
+.counts div:first-child {
+  border-left-color: var(--blood);
+}
+
+.caption {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 62ch;
+  margin: 0;
+}
+
+/* ---------- Life bars (on the photo) ---------- */
+
+.lifebar {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 30rem;
+}
+
+.lifebar-row {
+  display: grid;
+  grid-template-columns: 6.5rem 1fr;
+  grid-template-areas: "label track" ". value";
+  column-gap: 0.75rem;
+  row-gap: 0.2rem;
+  align-items: center;
+}
+
+.lifebar-label {
+  grid-area: label;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.lifebar-track {
+  grid-area: track;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.lifebar-fill {
+  display: block;
+  height: 100%;
+}
+
+.lifebar-fill.natural {
+  width: 100%;
+  background: #e9ece6;
+}
+
+.lifebar-fill.killed {
+  background: #ff3b44;
+}
+
+.lifebar-value {
+  grid-area: value;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.lifebar-share {
+  margin: 1.5rem 0 0;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #ff6a70;
+}
+
+/* ---------- Shackle line ---------- */
+
+.line {
+  --hanger: clamp(84px, 11vw, 132px);
+  position: relative;
+  height: calc(var(--hanger) * 2.3);
+  margin: 3rem calc(-1 * clamp(1.25rem, 5vw, 4rem)) 1rem;
+}
+
+.rail {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 10px;
+  background: linear-gradient(var(--steel), color-mix(in srgb, var(--steel) 60%, var(--ink)));
+  z-index: 1;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  transform: translateX(calc(var(--p, 0) * -50%));
+  will-change: transform;
+}
+
+.hanger {
+  position: relative;
+  width: var(--hanger);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform-origin: 50% 0;
+  animation: swing 3.2s ease-in-out infinite alternate;
+  animation-delay: calc(var(--i) * -0.37s);
+}
+
+@keyframes swing {
+  from {
+    transform: rotate(-2.5deg);
+  }
+  to {
+    transform: rotate(2.5deg);
+  }
+}
+
+.hook {
+  width: 14px;
+  height: 34px;
+  margin-top: 4px;
+  fill: none;
+  stroke: var(--steel);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.body {
+  --hx: 28%;
+  --hy: 78%;
+  position: relative;
+  width: calc(var(--hanger) * 0.88);
+  margin-top: -6px;
+  color: var(--ink);
+}
+
+.carcass {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: rotate(180deg);
+}
+
+/* The bleed starts at the head, which hangs lowest once the animal is flipped */
+.bleed {
+  position: absolute;
+  left: var(--hx);
+  top: var(--hy);
+  width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+.species-duck .body { --hx: 28%; --hy: 76%; }
+.species-turkey .body { --hx: 26%; --hy: 84%; }
+.species-pig .body { --hx: 20%; --hy: 64%; }
+.species-cow .body { --hx: 12%; --hy: 74%; }
+.species-sheep .body { --hx: 18%; --hy: 70%; }
+.species-goat .body { --hx: 14%; --hy: 80%; }
+
+.stream {
+  flex: none;
+  width: 4px;
+  border-radius: 0 0 3px 3px;
+  background: var(--blood);
+  height: calc(6px + var(--p, 0) * var(--hanger) * 0.7);
+}
+
+.drop {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 7px;
+  height: 10px;
+  margin-left: -3.5px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: var(--fresh);
+  opacity: 0;
+  animation: fall 1.8s ease-in infinite;
+  animation-delay: calc(var(--i) * -0.29s);
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(calc(var(--p, 0) * var(--hanger) * 0.7));
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(calc(var(--p, 0) * var(--hanger) * 0.7 + var(--hanger) * 0.6));
+    opacity: 0;
+  }
+}
+
+/* Big animals get more room on the rail */
+.species-cow .line,
+.species-pig .line {
+  --hanger: clamp(110px, 15vw, 180px);
+}
+
+/* Smaller birds sit higher on the line */
+.species-chicken .body,
+.species-duck .body,
+.species-turkey .body {
+  width: calc(var(--hanger) * 0.7);
+}
+
+/* ---------- Water ---------- */
+
+.water {
+  position: relative;
+  background: linear-gradient(
+    to bottom,
+    var(--tile) 0,
+    color-mix(in srgb, var(--tile) 40%, var(--sea)) 18vh,
+    var(--sea) 45vh,
+    var(--sea) calc(100% - 40vh),
+    var(--tile) 100%
+  );
+  color: var(--sea-text);
+  padding: 45vh clamp(1.25rem, 5vw, 4rem) 45vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.net {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.fish {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 54px;
+  opacity: 0.38;
+  color: color-mix(in srgb, var(--sea-ink) calc((1 - var(--p, 0)) * 100%), var(--fresh));
+  transform: translateY(calc(var(--p, 0) * var(--fall))) rotate(calc(var(--r) + var(--p, 0) * 70deg))
+    scaleX(var(--flip)) scale(var(--s));
+}
+
+.fish svg {
+  display: block;
+  width: 100%;
+  --tile: var(--sea);
+}
+
+.water h2 {
+  font-size: clamp(3.5rem, 12vw, 9rem);
+  font-weight: 900;
+}
+
+.water-lede {
+  max-width: 52ch;
+  font-size: 1.15rem;
+}
+
+.water-list {
+  display: grid;
+  gap: 3.5rem;
+  margin-top: 3.5rem;
+}
+
+.water-item h3 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+}
+
+.water-verb {
+  margin: 0.25rem 0 0;
+  color: color-mix(in srgb, var(--sea-text) 70%, var(--sea));
+}
+
+.water .counts div {
+  border-left-color: color-mix(in srgb, var(--sea-text) 30%, var(--sea));
+}
+
+.water .counts div:first-child {
+  border-left-color: var(--fresh);
+}
+
+.water .counts dt {
+  color: color-mix(in srgb, var(--sea-text) 70%, var(--sea));
+}
+
+.water .counts dd.count-main {
+  color: #ff5a60;
+}
+
+.water-item > a {
+  display: inline-block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  text-decoration-color: #ff5a60;
+}
+
+.water-photo {
+  margin: 2.5rem 0 0;
+  max-width: 40rem;
+}
+
+.water-photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.water-photo figcaption {
+  margin-top: 0.75rem;
+  font-size: 1.05rem;
+}
+
+.water-photo figcaption .credit {
+  display: block;
+  color: color-mix(in srgb, var(--sea-text) 60%, var(--sea));
+}
+
+/* ---------- Films ---------- */
+
+.films {
+  --night: #141110;
+  --night-text: #eef0ec;
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--night);
+  color: var(--night-text);
+  padding: 40vh clamp(1.25rem, 5vw, 4rem) 36vh;
+}
+
+.films-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+.films-bg-pin {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  overflow: hidden;
+}
+
+/* The landscape stays in place while the list scrolls over it, slowly drifting closer */
+.films-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+  opacity: 0.75;
+  transform: scale(calc(1 + var(--p, 0) * 0.12));
+  will-change: transform;
+}
+
+/* Fade the photo in from the tile above and back out to the tile below */
+.films-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--tile) 0,
+    var(--night) 26vh,
+    rgba(20, 17, 16, 0.45) 48vh,
+    rgba(20, 17, 16, 0.82) 72%,
+    var(--night) calc(100% - 30vh),
+    var(--tile) 100%
+  );
+}
+
+.films h2 {
+  font-size: clamp(2.75rem, 8vw, 6rem);
+}
+
+.films-lede {
+  max-width: 52ch;
+  font-size: 1.15rem;
+  margin: 1rem 0 0;
+}
+
+.films-warning {
+  max-width: 60ch;
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1rem;
+  border-left: 4px solid #e0242e;
+  background: rgba(20, 17, 16, 0.6);
+  backdrop-filter: blur(6px);
+  font-size: 0.95rem;
+}
+
+.films-warning a {
+  text-decoration-color: #e0242e;
+  text-decoration-thickness: 2px;
+}
+
+.film-list {
+  list-style: none;
+  margin: 3rem 0 0;
+  padding: 0;
+  max-width: 68rem;
+}
+
+.film {
+  display: grid;
+  grid-template-columns: 17rem minmax(0, 1fr) 13rem;
+  gap: 0.75rem 2.5rem;
+  align-items: baseline;
+  padding: 1.75rem 0;
+  border-top: 1px solid rgba(238, 240, 236, 0.22);
+}
+
+.film h3 {
+  font-size: clamp(1.75rem, 3vw, 2.4rem);
+}
+
+.film-meta {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.film-about {
+  margin: 0;
+  max-width: 46ch;
+}
+
+.film-link {
+  justify-self: end;
+  font-family: var(--display);
+  font-weight: 700;
+  color: var(--night-text);
+  text-decoration-color: #e0242e;
+  text-decoration-thickness: 2px;
+  white-space: nowrap;
+}
+
+.films-credit {
+  margin: 3rem 0 0;
+  font-size: 0.7rem;
+  opacity: 0.6;
+}
+
+.films-credit a {
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .film {
+    grid-template-columns: 1fr;
+  }
+  .film-link {
+    justify-self: start;
+  }
+}
+
+/* ---------- Ledger ---------- */
+
+.ledger {
+  padding: 6rem clamp(1.25rem, 5vw, 4rem) 4rem;
+}
+
+.ledger h2 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  margin-bottom: 2rem;
+}
+
+.ledger-scroll {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 40rem;
+  font-size: 1rem;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.9rem 1rem 0.9rem 0;
+  border-bottom: 1px solid var(--grout);
+  vertical-align: baseline;
+}
+
+thead th {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--muted);
+  border-bottom: 3px solid var(--ink);
+}
+
+tbody th {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+td.num,
+th.num {
+  text-align: right;
+  font-family: var(--display);
+  font-variation-settings: "wdth" 75;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+td.num:first-of-type {
+  color: var(--blood);
+  font-weight: 700;
+}
+
+.unit {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+td:last-child {
+  font-size: 0.9rem;
+}
+
+.hero-links {
+  display: flex;
+  gap: 1.5rem;
+  margin: 1rem 0 0;
+  font-family: var(--display);
+  font-weight: 600;
+}
+
+/* ---------- Books ---------- */
+
+.books {
+  padding: 3rem clamp(1.25rem, 5vw, 4rem) 3rem;
+}
+
+.books h2 {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+}
+
+.books-lede {
+  max-width: 52ch;
+  margin: 1rem 0 2.5rem;
+}
+
+.shelf {
+  margin-bottom: 3rem;
+}
+
+.shelf h3 {
+  font-size: 1.6rem;
+  font-variation-settings: "wdth" 75;
+  padding-bottom: 0.6rem;
+  border-bottom: 3px solid var(--ink);
+}
+
+/* A plank under each row of covers */
+.shelf-row {
+  list-style: none;
+  margin: 0;
+  padding: 1.5rem 0 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 2rem 1.5rem;
+}
+
+.book a {
+  display: block;
+  text-decoration: none;
+}
+
+.book img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  border-radius: 2px 4px 4px 2px;
+  box-shadow: inset 4px 0 0 rgba(0, 0, 0, 0.15), 0 8px 0 -4px var(--steel);
+  background: var(--grout);
+  transition: transform 0.2s ease;
+}
+
+.book a:hover img,
+.book a:focus-visible img {
+  transform: translateY(-4px);
+}
+
+.book-title {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.15;
+}
+
+.book a:hover .book-title {
+  text-decoration: underline;
+  text-decoration-color: var(--blood);
+}
+
+.book-author {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.book-desc {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.disclosure {
+  font-size: 0.85rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+/* ---------- Prose ---------- */
+
+.prose {
+  padding: 4rem clamp(1.25rem, 5vw, 4rem);
+  max-width: calc(66ch + 8rem);
+  line-height: 1.7;
+}
+
+.prose h2 {
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  margin-bottom: 1.25rem;
+}
+
+.prose p {
+  max-width: 66ch;
+}
+
+.support {
+  border-top: 6px solid var(--steel);
+  max-width: none;
+}
+
+.support-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.9rem 1.75rem;
+  background: var(--blood);
+  color: #fff;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.support-link:hover {
+  background: var(--fresh);
+}
+
+.foot {
+  padding: 2rem clamp(1.25rem, 5vw, 4rem) 3rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+/* ---------- Motion preferences ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .blood-edge .drip,
+  .hanger,
+  .drop {
+    animation: none;
+  }
+  .drop {
+    display: none;
+  }
+  .track {
+    transform: none;
+  }
+  .fish {
+    transform: rotate(var(--r)) scaleX(var(--flip)) scale(var(--s));
+  }
+  .hero-inner,
+  .field-photo img,
+  .films-bg img {
+    transform: none;
+  }
+  .hero-inner {
+    opacity: 1;
+  }
+}
